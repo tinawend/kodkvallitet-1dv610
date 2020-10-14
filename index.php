@@ -4,6 +4,7 @@
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
+require_once('model/SessionState.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -29,10 +30,11 @@ session_start();
 // }
 
 //CREATE OBJECTS OF THE VIEWS
-$v = new LoginView();
-$dtv = new DateTimeView();
-$lv = new LayoutView();
+$v = new view\LoginView();
+$dtv = new view\DateTimeView();
+$lv = new view\LayoutView();
+$sess = new model\SessionState();
 
-$v->stateChanger();
-$lv->render($v->isLoggedIn(), $v, $dtv);
+$sess->changeState();
+$lv->render($sess->isLoggedIn(), $v, $dtv);
 

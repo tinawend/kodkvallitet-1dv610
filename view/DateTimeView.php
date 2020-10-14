@@ -1,5 +1,5 @@
 <?php
-
+namespace view;
 class DateTimeView {
 
 
@@ -7,7 +7,7 @@ class DateTimeView {
 
 		$date = date('m/d/Y');
 		$dayName = date('l');
-		$day = date('dS');
+		$day = date('jS');
 		$monthName = date('F');
 		$month = date('m');
 		$year = date('Y');

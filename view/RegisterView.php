@@ -1,5 +1,5 @@
 <?php
-
+namespace view;
 class RegisterView {
 
 	private static $name = 'RegisterView::UserName';
