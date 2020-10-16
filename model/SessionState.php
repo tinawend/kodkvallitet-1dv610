@@ -23,7 +23,7 @@ class SessionState {
     public function changeState(){
         $log = new \controller\LoginController();
         $v = new \view\LoginView();
-        $cm = new \model\CookieModel();
+        $cm = new CookieModel();
         if($log->successLogin() || isset($_SESSION["Username"])){
             $log->ifLoggedIn();
     

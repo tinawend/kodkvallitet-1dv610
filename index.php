@@ -4,6 +4,7 @@
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
+require_once('view/GameView.php');
 require_once('model/SessionState.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
@@ -33,6 +34,7 @@ session_start();
 $v = new view\LoginView();
 $dtv = new view\DateTimeView();
 $lv = new view\LayoutView();
+$gv = new view\GameView();
 $sess = new model\SessionState();
 
 $sess->changeState();

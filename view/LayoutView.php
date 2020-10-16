@@ -2,8 +2,8 @@
 
 namespace view;
 class LayoutView {
-  
   public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
+    $gv = new GameView();
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -13,10 +13,13 @@ class LayoutView {
         <body>
           <h1>Assignment 2</h1>
           ' . $v->renderRegisterOrLogin() . '
+          ' . $v->renderPlayDice() . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $v->response() . '
+          ' . $gv->playGame() . '
+          ' . $gv->gameResult() . '
+          ' . $v->response() . '
               
               ' . $dtv->show() . '
           </div>
@@ -33,12 +36,4 @@ class LayoutView {
       return '<h2>Not logged in</h2>';
     }
   }
-
-  // private function renderRegisterOrLogin() {
-  //   if() {
-  //     return '<a href="?register">Register a new user</a>'
-  //   } else {
-  //     return '<a href="?">Register a new user</a>'
-  //   }
-  // }
 }

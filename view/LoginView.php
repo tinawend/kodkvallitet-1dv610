@@ -1,9 +1,10 @@
 <?php
 
 namespace view;
+require_once('view/GameView.php');
 require_once('view/RegisterView.php');
-// require_once('model/CookieModel.php');
-// require_once('model/SessionState.php');
+require_once('model/CookieModel.php');
+require_once('model/SessionState.php');
 require_once('controller/LoginController.php');
 
 class LoginView {
@@ -33,14 +34,17 @@ class LoginView {
 	 */
 	public function response() {
 		// $message = '';
-		if(isset($_GET['register'])) {
+		if(isset($_GET['playGame'])) {
+		$gv = new \view\GameView();
+		$response = $gv->response();
+		}
+		elseif(isset($_GET['register'])) {
 			$r = new \view\RegisterView();
 			$response = $r->response();
 		} else {
 			$log = new \controller\LoginController();
 			$log->ifLoggedIn($this->message);
 			$log->ifNotLoggedIn($this->message);
-
 			if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])){
 				$log->checkCookies($this->message);
 			}
@@ -67,6 +71,18 @@ class LoginView {
 		  return '<a href="?">Back to login</a>';
 		}
 	  }
+
+	  public function renderPlayDice(){
+		$sess = new \model\SessionState();
+
+		  if($sess->isLoggedIn() == true){
+			if(!isset($_GET['playGame'])) {
+			  return '<a href="?playGame">Play a game of dice</a>';
+			}else {
+			  return '<a href="?">Back to login</a>';
+			}
+			}
+		}
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @param $message, String output message
