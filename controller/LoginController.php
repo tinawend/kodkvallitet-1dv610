@@ -13,33 +13,39 @@ class LoginController {
     private static $keep = 'LoginView::KeepMeLoggedIn';
     private $salted = "hej";
     private $message = '';
-    public $username = 'tw222eu';
-	public $passwrd = '12345';
 
+
+    public function correctUsername() {
+        $strJsonFileContents = file_get_contents("users.json");
+        $array = json_decode($strJsonFileContents, true);
+        return $array['username'];
+    }
+    public function correctPassword() {
+        $strJsonFileContents = file_get_contents("users.json");
+        $array = json_decode($strJsonFileContents, true);
+        return $array['password'];
+    }
 
     public function successCookieLogin() {
-		return $_COOKIE[self::$cookieName] == $this->username && $_COOKIE[self::$cookiePassword] == hash('sha256', $this->salted.$this->passwrd);
-	}
-
+		return $_COOKIE[self::$cookieName] == $this->correctUsername() && $_COOKIE[self::$cookiePassword] == hash('sha256', $this->salted.$this->correctPassword());
+    }
 
     public function successLogin() {
-		return isset($_POST[self::$login]) && $_POST[self::$name] == $this->username && $_POST[self::$password] == $this->passwrd;
+		return isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] == $this->correctPassword();
     }
     
     public function checkCookies(&$message) {
 		if(!isset($_SESSION[self::$sesUsername]) && $this->successCookieLogin()) {	
 			$message = 'Welcome back with cookie';
 		}
-		if($_COOKIE[self::$cookieName] != $this->username || $_COOKIE[self::$cookiePassword] != hash('sha256', $this->salted.$this->passwrd)) {
+		if($_COOKIE[self::$cookieName] != $this->correctUsername() || $_COOKIE[self::$cookiePassword] != hash('sha256', $this->salted.$this->correctPassword())) {
 			$message = 'Wrong information in cookies';
 		}
 	}
 
     public function ifNotLoggedIn(&$message) {
-		// $message = '';
-            // $cm = new model\CookieModel();
-			// $sess = new \model\SessionState();
-			// if($sess->isLoggedIn() == false) {
+
+            
 
 				if(isset($_POST[self::$login]) && empty($_POST[self::$name])){
 					$message .= 'Username is missing';
@@ -47,13 +53,13 @@ class LoginController {
 				elseif(isset($_POST[self::$login]) && empty($_POST[self::$password])) {
 					$message .= 'Password is missing';
 				}
-				elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->username && $_POST[self::$password] != $this->passwrd) {
+				elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] != $this->correctPassword()) {
 					$message .= 'Wrong name or password';
 				}
-				elseif(isset($_POST[self::$login]) && $_POST[self::$name] != $this->username && $_POST[self::$password] == $this->passwrd) {
+				elseif(isset($_POST[self::$login]) && $_POST[self::$name] != $this->correctUsername() && $_POST[self::$password] == $this->correctPassword()) {
 					$message .= 'Wrong name or password';
                 }
-                elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->username && $_POST[self::$password] == $this->passwrd){
+                elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] == $this->correctPassword()){
                     $message .= 'Welcome';
                 }
             // }

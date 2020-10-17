@@ -6,7 +6,7 @@ class GameView {
 	private static $playGame = 'GameView::playGame';
     private static $messageId = 'GameView::Message';
     private static $numberInput = 'GameView::numberInput';
-
+    private static $diceResult = 'Gameview::diceResult';
 
 	public function response() {
 		// if(isset($_GET['playGame'])) {
@@ -40,7 +40,7 @@ class GameView {
     }
     public function gameResult(){
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
-            if($_SESSION['diceResult'] == $_POST[self::$numberInput]){
+            if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
             return '<h2>you win!</h2>';
             } else {
                 return '<h2>You lose, try again!</h2>';
@@ -49,7 +49,7 @@ class GameView {
     }
 
     public function randomDice() {
-        $_SESSION['diceResult'] = rand(1,6);
-        return $_SESSION['diceResult'];
+        $_SESSION[self::$diceResult] = rand(1,6);
+        return $_SESSION[self::$diceResult];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace view;
+require_once('controller/RegisterController.php');
 class RegisterView {
 
 	private static $name = 'RegisterView::UserName';
@@ -20,6 +21,11 @@ class RegisterView {
 		}
 		if($_SERVER['REQUEST_METHOD'] == 'POST' && strlen($_POST[self::$password]) < 6) {
 			$message .= 'Password has too few characters, at least 6 characters.';
+		}
+
+		if(isset($_POST[self::$register]) && strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] == $_POST[self::$passwordRepeat]) {
+			$rc = new \controller\RegisterController();
+			$rc->saveUser();
 		}
 
 		$response = $this->generateRegisterFormHTML($message);

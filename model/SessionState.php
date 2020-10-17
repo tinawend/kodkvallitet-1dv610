@@ -7,8 +7,6 @@ class SessionState {
 
     private $message = '';
 	private $salted = "hej";
-	public $username = 'tw222eu';
-    public $passwrd = '12345';
     private static $state = "LoggedIn";
     private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -24,11 +22,11 @@ class SessionState {
         $log = new \controller\LoginController();
         $v = new \view\LoginView();
         $cm = new CookieModel();
-        if($log->successLogin() || isset($_SESSION["Username"])){
+        if($log->successLogin() || isset($_SESSION[self::$sesUsername])){
             $log->ifLoggedIn();
     
             $_SESSION[self::$state] = true;
-            $_SESSION[self::$sesUsername] = $this->username;
+            $_SESSION[self::$sesUsername] = $log->correctUsername();
 
         }
         

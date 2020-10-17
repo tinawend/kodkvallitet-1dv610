@@ -16,12 +16,9 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	// private static $state = "LoggedIn";
 	private static $sesUsername = "Username";
 	private $message = '';
-	// private $salted = "hej";
-	// public $username = 'tw222eu';
-	// public $passwrd = '12345';
+
 
 
 	
