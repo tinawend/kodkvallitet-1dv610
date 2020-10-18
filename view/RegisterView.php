@@ -28,6 +28,9 @@ class RegisterView {
 		if($_SERVER['REQUEST_METHOD'] == 'POST' && strlen($_POST[self::$password]) < 6) {
 			$message .= 'Password has too few characters, at least 6 characters.';
 		}
+		if(isset($_POST[self::$register]) && $_POST[self::$password] != $_POST[self::$passwordRepeat]) {
+			$message .= 'Passwords do not match.';
+		}
 
 		if(isset($_POST[self::$register]) && strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] == $_POST[self::$passwordRepeat]) {
 			$rc = new \controller\RegisterController();

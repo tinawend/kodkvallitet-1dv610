@@ -18,6 +18,7 @@ class GameView {
 	public function response() {
         $message = 'Type a number and press Roll Dice to start a new game!';
         $response = $this->generateGameFormHTML($message);
+        
 
         return $response;
 
@@ -34,7 +35,7 @@ class GameView {
             <fieldset>
             <legend>Play a game of dice</legend>
             <p id="' . self::$messageId . '">' . $message . '</p>
-            <input id = "' . self::$numberInput . '" type="text" name="' . self::$numberInput . '"/>
+            <input id = "' . self::$numberInput . '" type="number" maxlength="1" name="' . self::$numberInput . '"/>
             <input id="' . self::$playGame . '" type="submit" name="' . self::$playGame . '" value="Roll Dice" />
             </fieldset>
             </form>
@@ -49,7 +50,12 @@ class GameView {
     public function playGame() {
         $pdc = new \model\DiceModel();
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
-            return '<img src="view/images/dice' . $pdc->rollDice() . '.jpg"/>';
+            if($_POST[self::$numberInput] > 6 || $_POST[self::$numberInput] < 1) {
+                return '<p>Please type a number between 1-6</p>';
+            }else{
+                
+                return '<img src="view/images/dice' . $pdc->rollDice() . '.jpg"/>';
+            }
         }
 
     }    
@@ -60,6 +66,7 @@ class GameView {
      */
     public function gameResult() {
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
+  
             if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
             return '<h2>you win!</h2>';
             } else {
