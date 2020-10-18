@@ -17,7 +17,7 @@ ini_set('session.cookie_samesite', 'lax');
 ini_set('session.use_strict_mode', TRUE);
 
 session_start();
-// // Change this to your connection info.
+// // TODO: Change this to your connection info.
 // $DATABASE_HOST = 'localhost';
 // $DATABASE_USER = 'root';
 // $DATABASE_PASS = '';

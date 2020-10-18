@@ -118,7 +118,7 @@ class LoginController {
     public function LoggingOut(&$message){
 
         $cm = new \model\CookieModel();
-        $cm->DeleteCookies();
+        $cm->deleteCookies();
         $message = 'Bye bye!';
     }
 }

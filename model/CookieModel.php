@@ -23,7 +23,7 @@ class CookieModel {
      *
      * @return void
      */
-    public function DeleteCookies() {
+    public function deleteCookies() {
         session_unset();
         session_destroy();
         setcookie(self::$cookieName, "", time() - 3600);
