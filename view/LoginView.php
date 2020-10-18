@@ -77,9 +77,9 @@ class LoginView {
 	  /**
 	   * renderPlayDice renders HTML link to play dice game or login.
 	   *
-	   * @return string string of HTML.
+	   * @return void but returns HTML.
 	   */
-	  public function renderPlayDice():string {
+	  public function renderPlayDice() {
 		$sess = new \model\SessionState();
 
 		  if($sess->isLoggedIn() == true){
@@ -134,9 +134,9 @@ class LoginView {
 	/**
 	 * getRequestUserName
 	 *
-	 * @return string session containing string of username for login input.
+	 * @return void session containing string of username for login input.
 	 */
-	private function getRequestUserName():string {
+	private function getRequestUserName() {
 		if(isset($_POST[self::$login]) && !empty($_POST[self::$name])) {
 			$_SESSION[self::$sesUsername] = $_POST[self::$name];
 			return $_SESSION[self::$sesUsername];

@@ -19,9 +19,9 @@ class LoginController {
     /**
      * correctUsername
      *
-     * @return array array containg correct username.
+     * @return string string containg correct username.
      */
-    public function correctUsername():array {
+    public function correctUsername():string {
         $strJsonFileContents = file_get_contents("users.json");
         $array = json_decode($strJsonFileContents, true);
         return $array['username'];
@@ -30,9 +30,9 @@ class LoginController {
     /**
      * correctPassword
      *
-     * @return array array containing correct password.
+     * @return string string containing correct password.
      */
-    public function correctPassword():array {
+    public function correctPassword():string {
         $strJsonFileContents = file_get_contents("users.json");
         $array = json_decode($strJsonFileContents, true);
         return $array['password'];

@@ -70,9 +70,9 @@ class RegisterView {
 	/**
 	 * getRequestUserName
 	 *
-	 * @return string session containing string of username for register input.
+	 * @return void session containing string of username for register input.
 	 */
-	private function getRequestUserName():string {
+	private function getRequestUserName() {
 		if(isset($_POST[self::$register]) && !empty($_POST[self::$name])) {
 			$_SESSION[self::$sesUsername] = $_POST[self::$name];
 			return $_SESSION[self::$sesUsername];

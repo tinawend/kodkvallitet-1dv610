@@ -44,9 +44,9 @@ class GameView {
     /**
      * playGame
      *
-     * @return string string of HTML img element.
+     * @return void but returns HTML img element.
      */
-    public function playGame():string {
+    public function playGame() {
         $pdc = new \model\DiceModel();
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
             return '<img src="view/images/dice' . $pdc->rollDice() . '.jpg"/>';
@@ -56,9 +56,9 @@ class GameView {
     /**
      * gameResult
      *
-     * @return string string of HTML element.
+     * @return void but returns HTML element.
      */
-    public function gameResult():string {
+    public function gameResult() {
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
             if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
             return '<h2>you win!</h2>';
