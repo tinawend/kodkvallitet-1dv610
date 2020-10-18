@@ -1,9 +1,12 @@
 <?php
 namespace view;
 class DateTimeView {
-
-
-	public function show() {
+	/**
+	 * show date and time
+	 *
+	 * @return string string of HTML.
+	 */
+	public function show():string {
 
 		$date = date('m/d/Y');
 		$dayName = date('l');

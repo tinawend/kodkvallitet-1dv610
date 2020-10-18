@@ -6,7 +6,7 @@ require_once('view/LoginView.php');
 class SessionState {
 
     private $message = '';
-	private $salted = "hej";
+	private $salted = "rjdjsoojnnm334kjsjfjf9865vdjdpj2jd9WpQ";
     private static $state = "LoggedIn";
     private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -17,7 +17,12 @@ class SessionState {
     private static $sesUsername = "Username";
 
 
-
+    
+    /**
+     * changeState to true or false.
+     *
+     * @return void
+     */
     public function changeState(){
         $log = new \controller\LoginController();
         $v = new \view\LoginView();
@@ -45,8 +50,14 @@ class SessionState {
     }
 
 
-
-    public function isLoggedIn() {
+    
+    
+    /**
+     * isLoggedIn
+     *
+     * @return bool session containing a bool value.
+     */
+    public function isLoggedIn():bool {
         if(isset($_SESSION[self::$state])){
             return $_SESSION[self::$state];
         }

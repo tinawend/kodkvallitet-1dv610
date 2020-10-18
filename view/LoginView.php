@@ -30,7 +30,6 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		// $message = '';
 		if(isset($_GET['playGame'])) {
 		$gv = new \view\GameView();
 		$response = $gv->response();
@@ -49,7 +48,7 @@ class LoginView {
 			if(isset($_SESSION[self::$sesUsername]) || isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {			
 				$response = $this->generateLogoutButtonHTML();
 				if(isset($_POST[self::$logout]) && $_POST[self::$logout]) {
-					$log->LoggingOut($this->message);
+					$log->LoggingOut($this->message, $response);
 					$response = $this->generateLoginFormHTML();
 				}
 			}else{
@@ -60,16 +59,27 @@ class LoginView {
 		return $response;
 	}
 
-	
-	public function renderRegisterOrLogin() {
+		
+	/**
+	 * renderRegisterOrLogin  renders HTML link to register or login.
+	 *
+	 * @return string string of HTML.
+	 */
+	public function renderRegisterOrLogin():string {
 		if(!isset($_GET['register'])) {
 		  return '<a href="?register">Register a new user</a>';
 		} else {
 		  return '<a href="?">Back to login</a>';
 		}
 	  }
-
-	  public function renderPlayDice(){
+	  
+	  
+	  /**
+	   * renderPlayDice renders HTML link to play dice game or login.
+	   *
+	   * @return string string of HTML.
+	   */
+	  public function renderPlayDice():string {
 		$sess = new \model\SessionState();
 
 		  if($sess->isLoggedIn() == true){
@@ -82,7 +92,6 @@ class LoginView {
 		}
 	/**
 	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
 	* @return  void, BUT writes to standard output!
 	*/
 	public function generateLogoutButtonHTML() {
@@ -95,8 +104,7 @@ class LoginView {
 	}
 	
 	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
+	* Generate HTML code for Login form.
 	* @return  void, BUT writes to standard output!
 	*/
 	public function generateLoginFormHTML() {
@@ -121,11 +129,14 @@ class LoginView {
 		';
 	}
 
-
 	
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
+	
+	/**
+	 * getRequestUserName
+	 *
+	 * @return string session containing string of username for login input.
+	 */
+	private function getRequestUserName():string {
 		if(isset($_POST[self::$login]) && !empty($_POST[self::$name])) {
 			$_SESSION[self::$sesUsername] = $_POST[self::$name];
 			return $_SESSION[self::$sesUsername];

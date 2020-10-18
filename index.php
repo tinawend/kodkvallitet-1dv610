@@ -13,7 +13,6 @@ ini_set('display_errors', 'On');
 ini_set('session.use_only_cookies', TRUE);                
 ini_set('session.use_trans_sid', FALSE);
 ini_set('session.cookie_httponly', TRUE);
-// ini_set('session.cookie_secure', TRUE);
 ini_set('session.cookie_samesite', 'lax');
 ini_set('session.use_strict_mode', TRUE);
 
@@ -30,11 +29,12 @@ session_start();
 // 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 // }
 
-//CREATE OBJECTS OF THE VIEWS
+
 $v = new view\LoginView();
 $dtv = new view\DateTimeView();
 $lv = new view\LayoutView();
 $gv = new view\GameView();
+
 $sess = new model\SessionState();
 
 $sess->changeState();

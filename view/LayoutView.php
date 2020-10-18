@@ -1,7 +1,15 @@
 <?php
 
 namespace view;
-class LayoutView {
+class LayoutView {  
+  /**
+   * render layout HTML.
+   *
+   * @param  mixed $isLoggedIn
+   * @param  mixed $v
+   * @param  mixed $dtv
+   * @return void HTML standard layout.
+   */
   public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
     $gv = new GameView();
     echo '<!DOCTYPE html>
@@ -28,7 +36,13 @@ class LayoutView {
     ';
   }
   
-  private function renderIsLoggedIn($isLoggedIn) {
+  /**
+   * renderIsLoggedIn 
+   *
+   * @param  mixed $isLoggedIn
+   * @return string string of HTML 
+   */
+  private function renderIsLoggedIn($isLoggedIn):string {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }

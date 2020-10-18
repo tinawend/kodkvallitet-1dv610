@@ -12,7 +12,13 @@ class RegisterView {
 	private static $register = 'RegisterView::Register';
 	private static $sesUsername = "Username";
 
-
+	/**
+	 * Create HTTP response
+	 *
+	 * Should be called after a register attempt has been determined
+	 *
+	 * @return  void BUT writes to standard output!
+	 */
 	public function response() {
 		$message = '';
 
@@ -32,6 +38,11 @@ class RegisterView {
 		return $response;
 	}
 
+	/**
+	* Generate HTML code for register form.
+	* @param $message, String output message
+	* @return  void, BUT writes to standard output!
+	*/
     public function generateRegisterFormHTML($message) {
 		return '
 			<form action="?register" method="post" > 
@@ -54,8 +65,14 @@ class RegisterView {
 		';
 	}
 
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
+	
+
+	/**
+	 * getRequestUserName
+	 *
+	 * @return string session containing string of username for register input.
+	 */
+	private function getRequestUserName():string {
 		if(isset($_POST[self::$register]) && !empty($_POST[self::$name])) {
 			$_SESSION[self::$sesUsername] = $_POST[self::$name];
 			return $_SESSION[self::$sesUsername];

@@ -2,21 +2,32 @@
 
 namespace view;
 
+require_once('model/DiceModel.php');
+
 class GameView {
 	private static $playGame = 'GameView::playGame';
     private static $messageId = 'GameView::Message';
     private static $numberInput = 'GameView::numberInput';
     private static $diceResult = 'Gameview::diceResult';
-
+	
+	/**
+	 * response
+	 *
+	 * @return void BUT writes to standard output
+	 */
 	public function response() {
-		// if(isset($_GET['playGame'])) {
-        $message = 'Press Play Game to start a new game!';
+        $message = 'Type a number and press Roll Dice to start a new game!';
         $response = $this->generateGameFormHTML($message);
-        
-        // }
+
         return $response;
 
-    }
+    }    
+    /**
+     * generateGameFormHTML
+     *
+     * @param  mixed $message
+     * @return void BUT writes to standard output
+     */
     public function generateGameFormHTML($message) {
         return '
             <form action="?playGame" method="post"> 
@@ -24,21 +35,30 @@ class GameView {
             <legend>Play a game of dice</legend>
             <p id="' . self::$messageId . '">' . $message . '</p>
             <input id = "' . self::$numberInput . '" type="text" name="' . self::$numberInput . '"/>
-            <input id="' . self::$playGame . '" type="submit" name="' . self::$playGame . '" value="Play Game" />
+            <input id="' . self::$playGame . '" type="submit" name="' . self::$playGame . '" value="Roll Dice" />
             </fieldset>
             </form>
             ';
     }
-
-    public function playGame() {
+    
+    /**
+     * playGame
+     *
+     * @return string string of HTML img element.
+     */
+    public function playGame():string {
+        $pdc = new \model\DiceModel();
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
-
-            return '<img src="view/images/dice' . $this->randomDice() . '.jpg"/>';
-
+            return '<img src="view/images/dice' . $pdc->rollDice() . '.jpg"/>';
         }
 
-    }
-    public function gameResult(){
+    }    
+    /**
+     * gameResult
+     *
+     * @return string string of HTML element.
+     */
+    public function gameResult():string {
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
             if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
             return '<h2>you win!</h2>';
@@ -46,10 +66,5 @@ class GameView {
                 return '<h2>You lose, try again!</h2>';
             }
         }
-    }
-
-    public function randomDice() {
-        $_SESSION[self::$diceResult] = rand(1,6);
-        return $_SESSION[self::$diceResult];
     }
 }
