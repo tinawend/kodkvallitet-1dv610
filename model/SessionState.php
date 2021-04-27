@@ -1,19 +1,15 @@
 <?php
 namespace model;
-require_once('model/CookieModel.php');
 require_once('controller/LoginController.php');
 require_once('view/LoginView.php');
 class SessionState {
 
-    private $message = '';
-	private $salted = "rjdjsoojnnm334kjsjfjf9865vdjdpj2jd9WpQ";
     private static $state = "LoggedIn";
-    private static $login = 'LoginView::Login';
+
 	private static $logout = 'LoginView::Logout';
     private static $cookieName = 'LoginView::CookieName';
     private static $cookiePassword = 'LoginView::CookiePassword';
-    private static $name = 'LoginView::UserName';
-    private static $password = 'LoginView::Password';
+
     private static $sesUsername = "Username";
 
 
@@ -25,9 +21,8 @@ class SessionState {
      */
     public function changeState(){
         $log = new \controller\LoginController();
-        $v = new \view\LoginView();
-        $cm = new CookieModel();
-        if($log->successLogin() || isset($_SESSION[self::$sesUsername])){
+       
+        if($log->successLogin()){
             $log->ifLoggedIn();
     
             $_SESSION[self::$state] = true;
@@ -35,10 +30,10 @@ class SessionState {
 
         }
         
-        if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])){
-            if($log->successCookieLogin()) {
+        if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]) && $log->successCookieLogin()){
+            
                 $_SESSION[self::$state] = true;
-			}
+			
 			
         }
 
@@ -64,6 +59,10 @@ class SessionState {
         else {
             return $_SESSION[self::$state] = false;
         }
+    }
+
+    public function isUsernameSetSession() {
+        return isset($_SESSION[self::$sesUsername]);
     }
     
 }

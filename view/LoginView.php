@@ -3,7 +3,7 @@
 namespace view;
 require_once('view/GameView.php');
 require_once('view/RegisterView.php');
-require_once('model/CookieModel.php');
+require_once('view/Cookies.php');
 require_once('model/SessionState.php');
 require_once('controller/LoginController.php');
 
@@ -12,14 +12,10 @@ class LoginView {
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
-	private static $cookieName = 'LoginView::CookieName';
-	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $sesUsername = "Username";
 	private $message = '';
-
-
 
 	
 	/**
@@ -38,17 +34,20 @@ class LoginView {
 			$r = new \view\RegisterView();
 			$response = $r->response();
 		} else {
+			$sess = new \model\SessionState();
 			$log = new \controller\LoginController();
+			$c = new \view\Cookies();
+
 			$log->ifLoggedIn($this->message);
 			$log->ifNotLoggedIn($this->message);
-			if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])){
+			if($c->issetCookieName() && $c->issetCookiePassword()){
 				$log->checkCookies($this->message);
 			}
 
-			if(isset($_SESSION[self::$sesUsername]) || isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {			
+			if($sess->isLoggedIn() || $c->issetCookieName() && $c->issetCookiePassword()) {			
 				$response = $this->generateLogoutButtonHTML();
 				if(isset($_POST[self::$logout]) && $_POST[self::$logout]) {
-					$log->LoggingOut($this->message, $response);
+					$log->loggingOut($this->message);
 					$response = $this->generateLoginFormHTML();
 				}
 			}else{
@@ -82,7 +81,7 @@ class LoginView {
 	  public function renderPlayDice() {
 		$sess = new \model\SessionState();
 
-		  if($sess->isLoggedIn() == true){
+		  if($sess->isLoggedIn()){
 			if(!isset($_GET['playGame'])) {
 			  return '<a href="?playGame">Play a game of dice</a>';
 			}else {
@@ -143,5 +142,51 @@ class LoginView {
 		}
 
 	}
+
+
+	// messages
+	public function loggedInCookieMessage(&$message) {
+		$message = 'Welcome back with cookie';
+	}
+
+	public function wrongCookieMessage(&$message) {
+		$message = 'Wrong information in cookies';
+	}
 	
+	public function missingUsernameMessage(&$message) {
+		$message .= 'Username is missing';
+	}
+
+	public function missingPasswordMessage(&$message) {
+		$message .= 'Password is missing';
+	}
+
+	public function wrongCredentialsMessage(&$message) {
+		$message .= 'Wrong name or password';
+	}
+
+	public function welcomeMessage(&$message) {
+		$message .= 'Welcome';
+	}
+
+	public function byeMessage(&$message) {
+		$message = 'Bye bye!';
+	}
+
+	// posts
+	public function issetPostLogin() {
+		return isset($_POST[self::$login]);
+	}
+
+	public function postName() {
+		return $_POST[self::$name];
+	}
+
+	public function postPassword() {
+		return $_POST[self::$password];
+	}
+
+	public function postKeep() {
+		return !empty($_POST[self::$keep]);
+	}
 }

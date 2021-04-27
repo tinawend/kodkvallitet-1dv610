@@ -66,7 +66,6 @@ class GameView {
      */
     public function gameResult() {
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
-  
             if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
             return '<h2>you win!</h2>';
             } else {

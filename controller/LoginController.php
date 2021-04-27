@@ -1,21 +1,12 @@
 <?php
 namespace controller;
 require_once('model/SessionState.php');
+require_once('view/LoginView.php');
+require_once('view/Cookies.php');
 
-class LoginController {
-    private static $login = 'LoginView::Login';
+class LoginController {   
+    // private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
-	private static $name = 'LoginView::UserName';
-    private static $password = 'LoginView::Password';
-    private static $cookieName = 'LoginView::CookieName';
-    private static $cookiePassword = 'LoginView::CookiePassword';
-    private static $sesUsername = "Username";
-    private static $keep = 'LoginView::KeepMeLoggedIn';
-    private $salted = "rjdjsoojnnm334kjsjfjf9865vdjdpj2jd9WpQ";
-    private $message = '';
-
-    
-   
     /**
      * correctUsername
      *
@@ -44,7 +35,8 @@ class LoginController {
      * @return void
      */
     public function successCookieLogin() {
-		return $_COOKIE[self::$cookieName] == $this->correctUsername() && $_COOKIE[self::$cookiePassword] == hash('sha256', $this->salted.$this->correctPassword());
+        $c = new \view\Cookies();
+		return $c->cookieName() == $this->correctUsername() && $c->cookiePassword() == $c->hashPassword();
     }
     
     /**
@@ -53,7 +45,8 @@ class LoginController {
      * @return void
      */
     public function successLogin() {
-		return isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] == $this->correctPassword();
+        $lw = new \view\LoginView();
+		return $lw->issetPostLogin() && $lw->postName() == $this->correctUsername() && $lw->postPassword() == $this->correctPassword();
     }
         
     /**
@@ -63,11 +56,14 @@ class LoginController {
      * @return void
      */
     public function checkCookies(&$message) {
-		if(!isset($_SESSION[self::$sesUsername]) && $this->successCookieLogin()) {	
-			$message = 'Welcome back with cookie';
+        $lw = new \view\LoginView();
+        $ss = new \model\SessionState();
+        $c = new \view\Cookies();
+		if(!$ss->isUsernameSetSession() && $this->successCookieLogin()) {
+            $lw->loggedInCookieMessage($message);
 		}
-		if($_COOKIE[self::$cookieName] != $this->correctUsername() || $_COOKIE[self::$cookiePassword] != hash('sha256', $this->salted.$this->correctPassword())) {
-			$message = 'Wrong information in cookies';
+		if($c->cookieName() != $this->correctUsername() || $c->cookiePassword() != $c->hashPassword()) {
+            $lw->wrongCookieMessage($message);
 		}
 	}
     
@@ -78,34 +74,37 @@ class LoginController {
      * @return void
      */
     public function ifNotLoggedIn(&$message) {
-
-		if(isset($_POST[self::$login]) && empty($_POST[self::$name])){
-			$message .= 'Username is missing';
+        $lw = new \view\LoginView();
+		if($lw->issetPostLogin() && empty($lw->postName())){
+            $lw->missingUsernameMessage($message);
 		}
-		elseif(isset($_POST[self::$login]) && empty($_POST[self::$password])) {
-			$message .= 'Password is missing';
+		elseif($lw->issetPostLogin() && empty($lw->postPassword())) {
+            $lw->missingPasswordMessage($message);
 		}
-		elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] != $this->correctPassword()) {
-			$message .= 'Wrong name or password';
+		elseif($lw->issetPostLogin() && $lw->postName() == $this->correctUsername() && $lw->postPassword() != $this->correctPassword()) {
+            $lw->wrongCredentialsMessage($message);
 		}
-		elseif(isset($_POST[self::$login]) && $_POST[self::$name] != $this->correctUsername() && $_POST[self::$password] == $this->correctPassword()) {
-			$message .= 'Wrong name or password';
+		elseif($lw->issetPostLogin() && $lw->postName() != $this->correctUsername() && $lw->postPassword() == $this->correctPassword()) {
+            $lw->wrongCredentialsMessage($message);
         }
-        elseif(isset($_POST[self::$login]) && $_POST[self::$name] == $this->correctUsername() && $_POST[self::$password] == $this->correctPassword()){
-            $message .= 'Welcome';
+        elseif($lw->issetPostLogin() && $lw->postName() == $this->correctUsername() && $lw->postPassword() == $this->correctPassword()){
+            $lw->welcomeMessage($message);
         }
 
     }
+
+    
         
     /**
      * ifLoggedIn keep me logged in by setting cookies.
      *
      * @return void
      */
-    public function ifLoggedIn(){
-        $cm = new \model\CookieModel();
-        if(!empty($_POST[self::$keep])) {
-            $cm->setCookies();
+    public function ifLoggedIn() {
+        $c = new \view\Cookies();
+        $lw = new \view\LoginView();
+        if($lw->postKeep()) {
+            $c->setCookies();
         }
     }
     
@@ -115,10 +114,11 @@ class LoginController {
      * @param  mixed $message
      * @return void
      */
-    public function LoggingOut(&$message){
+    public function loggingOut(&$message) {
+            $lw = new \view\LoginView();
+            $c = new \view\Cookies();
+            $c->deleteCookies();
+            $lw->byeMessage($message);
 
-        $cm = new \model\CookieModel();
-        $cm->deleteCookies();
-        $message = 'Bye bye!';
     }
 }
