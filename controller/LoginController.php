@@ -5,8 +5,6 @@ require_once('view/LoginView.php');
 require_once('view/Cookies.php');
 
 class LoginController {   
-    // private static $login = 'LoginView::Login';
-	private static $logout = 'LoginView::Logout';
     /**
      * correctUsername
      *

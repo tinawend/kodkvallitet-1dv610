@@ -31,6 +31,14 @@ class GameView {
      */
     public function generateGameFormHTML($message) {
         return '
+
+            <p>The Rules of the game:</p>
+            <p>The closer to the dice result you can guess the bigger score you get</p>
+            <p>Same number = 5 pointz</p>
+            <p>one above or under = 4 points</p>
+            <p>carefull! all other guesses will give you -1 point</p>
+            <p>if you reach 20 points you win, if you reach -10 points you loose!</p>
+
             <form action="?playGame" method="post"> 
             <fieldset>
             <legend>Play a game of dice</legend>
@@ -65,12 +73,18 @@ class GameView {
      * @return void but returns HTML element.
      */
     public function gameResult() {
+        $pdc = new \model\DiceModel();
         if(isset($_POST[self::$playGame]) && $_POST[self::$playGame]) {
-            if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
-            return '<h2>you win!</h2>';
-            } else {
-                return '<h2>You lose, try again!</h2>';
+            $score = $pdc->gameRules();
+            if($score == 20){
+                $pdc->resetScore();
+                return '<h2>You win!</h2>';
             }
+            if($score == -10){
+                $pdc->resetScore();
+                return '<h2>You Loose!</h2>';
+            }
+            return '<h2>your score is '. $score .' !</h2>';
         }
     }
 }

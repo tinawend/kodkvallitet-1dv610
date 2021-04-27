@@ -64,6 +64,10 @@ class SessionState {
     public function isUsernameSetSession() {
         return isset($_SESSION[self::$sesUsername]);
     }
+
+    // public function usernameSession() {
+    //     return $_SESSION[self::$sesUsername];
+    // }
     
 }
 

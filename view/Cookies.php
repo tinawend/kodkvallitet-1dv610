@@ -49,8 +49,6 @@ class Cookies {
     public function deleteCookies() {
         session_unset();
         session_destroy();
-        // unset($_COOKIE[self::$cookieName]);
-        // unset($_COOKIE[self::$cookiePassword]);
         setcookie(self::$cookieName, "", time() - 3600);
         setcookie(self::$cookiePassword, "", time() - 3600);
     }
