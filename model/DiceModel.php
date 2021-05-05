@@ -6,6 +6,10 @@ class DiceModel {
     private static $diceResult = 'Gameview::diceResult';
     private static $numberInput = 'GameView::numberInput';
     private $gameResult = 'gameresult';
+    private static $startScore = 0;
+    private static $highestScore = 5;
+    private static $middleScore = 3;
+    private static $lowestScore = 2;
     /**
      * rollDice
      *
@@ -23,19 +27,19 @@ class DiceModel {
     public function gameRules() {
         if(!isset($_SESSION[$this->gameResult])){
 
-            $_SESSION[$this->gameResult] = 0;
+            $_SESSION[$this->gameResult] = self::$startScore;
         }
         if($_SESSION[self::$diceResult] == $_POST[self::$numberInput]){
-            $_SESSION[$this->gameResult] += 5;
+            $_SESSION[$this->gameResult] += self::$highestScore;
         } 
         if($_SESSION[self::$diceResult]-1 == $_POST[self::$numberInput]){
-            $_SESSION[$this->gameResult] += 3;
+            $_SESSION[$this->gameResult] += self::$middleScore;
         }
         if($_SESSION[self::$diceResult]+1 == $_POST[self::$numberInput]){
-            $_SESSION[$this->gameResult] += 3;
+            $_SESSION[$this->gameResult] += self::$middleScore;
         }
         else{
-            $_SESSION[$this->gameResult] -= 2;
+            $_SESSION[$this->gameResult] -= self::$lowestScore;
         }
 
         return $_SESSION[$this->gameResult];
@@ -43,7 +47,7 @@ class DiceModel {
 
   
     public function resetScore() {
-        $_SESSION[$this->gameResult] = 0;
+        $_SESSION[$this->gameResult] = self::$startScore;
     }
 
 }
