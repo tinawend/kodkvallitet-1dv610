@@ -16,6 +16,10 @@ class DiceModel {
         return $_SESSION[self::$diceResult];
     }
 
+    /**
+     * gameRules
+     * @return int session containing the calculated game result
+     */
     public function gameRules() {
         if(!isset($_SESSION[$this->gameResult])){
 
@@ -36,6 +40,8 @@ class DiceModel {
 
         return $_SESSION[$this->gameResult];
     }
+
+  
     public function resetScore() {
         $_SESSION[$this->gameResult] = 0;
     }
