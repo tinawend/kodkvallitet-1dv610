@@ -54,7 +54,7 @@ class LoginView {
 					$response = $this->generateLoginFormHTML();
 			}
 		
-	}
+		}
 		return $response;
 	}
 
@@ -70,7 +70,7 @@ class LoginView {
 		} else {
 		  return '<a href="?">Back to login</a>';
 		}
-	  }
+	}
 	  
 	  
 	  /**
@@ -78,17 +78,17 @@ class LoginView {
 	   *
 	   * @return void but returns HTML.
 	   */
-	  public function renderPlayDice() {
+	public function renderPlayDice() {
 		$sess = new \model\SessionState();
 
-		  if($sess->isLoggedIn()){
+		if($sess->isLoggedIn()){
 			if(!isset($_GET['playGame'])) {
 			  return '<a href="?playGame">Play a game of dice</a>';
 			}else {
 			  return '<a href="?">Back to login</a>';
 			}
-			}
 		}
+	}
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @return  void, BUT writes to standard output!

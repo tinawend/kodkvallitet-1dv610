@@ -67,8 +67,7 @@ class GameView {
                 return '<img src="view/images/dice' . $pdc->rollDice() . '.jpg"/>';
             }
         }
-            $this->resetScore();
-        
+        $this->resetScore();
 
     }    
     /**
