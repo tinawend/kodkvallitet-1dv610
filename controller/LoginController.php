@@ -4,16 +4,19 @@ require_once('model/SessionState.php');
 require_once('view/LoginView.php');
 require_once('view/Cookies.php');
 
-class LoginController {   
+class LoginController { 
+    private $jsonfile = "users.json";
+    private $username = 'username';
+    private $password = 'password';
     /**
      * correctUsername
      *
      * @return string string containg correct username.
      */
     public function correctUsername():string {
-        $strJsonFileContents = file_get_contents("users.json");
+        $strJsonFileContents = file_get_contents($this->jsonfile);
         $array = json_decode($strJsonFileContents, true);
-        return $array['username'];
+        return $array[$this->username];
     }    
    
     /**
@@ -22,9 +25,9 @@ class LoginController {
      * @return string string containing correct password.
      */
     public function correctPassword():string {
-        $strJsonFileContents = file_get_contents("users.json");
+        $strJsonFileContents = file_get_contents($this->jsonfile);
         $array = json_decode($strJsonFileContents, true);
-        return $array['password'];
+        return $array[$this->password];
     }
     
     /**
